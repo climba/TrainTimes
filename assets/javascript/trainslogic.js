@@ -80,16 +80,16 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
 
   // Calculate the months worked using hardcore math
   // To calculate the months worked
-  var trainMonths = moment().diff(moment(startDate, "X"), "months");
-  console.log(trainMonths);
+  var trainMinsAway = moment().diff(moment(startDate, "X"), "months");
+  console.log(trainMinsAway);
 
   // Calculate the total time till next train
-  var nextTrain = trainMonths * trainFreq;
+  var nextTrain = trainMinsAway - trainFreq;
   console.log(nextTrain);
 
   // Add each train's data into the table
   $("#train-table > tbody").append("<tr><td>" + newTrain + "</td><td>" + trainDest + "</td><td>" +
-  startDatePretty + "</td><td>" + trainMonths + "</td><td>" + trainFreq + "</td></tr>");
+  trainFreq + "</td><td>" + nextTrain + "</td><td>" + trainMinsAway + "</td></tr>");
 });
 
 // Example Time Math
