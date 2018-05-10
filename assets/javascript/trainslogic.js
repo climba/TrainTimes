@@ -26,17 +26,17 @@ $("#add-train").on("click", function(event) {
   event.preventDefault();
 
   // Grabs user input
-  var trainName = $("#trainname").val().trim();
-  var trainDest = $("#destination").val().trim();
-  var startDate = moment($("#startdate").val().trim(), "DD/MM/YY").format("X");
-  var trainFreq = $("#frequency").val().trim();
+  var trainNameInput = $("#trainname").val().trim();
+  var trainDestInput = $("#destination").val().trim();
+  var trainFirstInput = $("#first-train-input").val().trim();
+  var trainFreqInput = $("#frequency-input").val().trim();
 
   // Creates local "temporary" object for holding train data
   var newTrain = {
-    tname: trainName,
-    tdest: trainDest,
-    start: startDate,
-    frequency: trainFreq
+    tname: trainNameInput,
+    tdest: trainDestInput,
+    tFreqTime: trainFirstInput,
+    frequency: trainFreqInput
   };
 
   // Uploads new train data to the database
@@ -45,16 +45,16 @@ $("#add-train").on("click", function(event) {
   // Logs everything to console
   console.log(newTrain.tname);
   console.log(newTrain.tdest);
-  console.log(newTrain.start);
+  console.log(newTrain.tFreqTime);
   console.log(newTrain.frequency);
 
   // Alert
   alert("Train successfully added");
 
-  // Clears all of the text-boxes
+  // Clears all of the text-boxes, avoiding being a bad developer! ;-)
   $("#trainname").val("");
   $("#destination").val("");
-  $("#startdate").val("");
+  $("#first-train-input").val("");
   $("#frequency").val("");
 });
 
@@ -64,38 +64,38 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
   console.log(childSnapshot.val());
 
   // Store everything into a variable.
-  var newTrain = childSnapshot.val().tname;
-  var trainDest = childSnapshot.val().tdest;
-  var startDate = childSnapshot.val().start;
-  var trainFreq = childSnapshot.val().frequency;
+  var trainNameInput = childSnapshot.val().tname;
+  var trainDestInput = childSnapshot.val().tdest;
+  var trainFirstInput = childSnapshot.val().tFreqTime;
+  var trainFreqInput = childSnapshot.val().frequency;
 
   // Train times info
-  console.log(newTrain);
-  console.log(trainDest);
-  console.log(startDate);
-  console.log(trainFreq);
+  console.log(trainNameInput);
+  console.log(trainDestInput);
+  console.log(trainFirstInput);
+  console.log(trainFreqInput);
 
-  // Prettify the employee start
-  var startDatePretty = moment.unix(startDate).format("MM/DD/YY");
+  // first Train time pushed back a year
+  var timeDiffConvert = moment(trainFirstInput, "HH:mm").subtract(1, "years"); 
 
-  // Calculate the months worked using hardcore math
-  // To calculate the months worked
-  var trainMinsAway = moment().diff(moment(startDate, "X"), "months");
-  console.log(trainMinsAway);
+  // Difference between current & first time
+  var timeDiff = moment().diff(moment(timeDiffConvert, "X"), "minutes");
+  console.log(minutesTillNext);
 
-  // Calculate the total time till next train
-  var nextTrain = trainMinsAway - trainFreq;
+  // time apart (remainder)
+  var tRemainder = timeDiff % trainFreqInput;
   console.log(nextTrain);
 
+  // Minutes until next train
+  var minutesTillNext = trainFreqInput - tRemainder;
+
+  // Use moment to convert the minutesTillNext var into minutes 
+  var nextTrain = moment().add(minutesTillNext, "minutes");
+
+
   // Add each train's data into the table
-  $("#train-table > tbody").append("<tr><td>" + newTrain + "</td><td>" + trainDest + "</td><td>" +
-  trainFreq + "</td><td>" + nextTrain + "</td><td>" + trainMinsAway + "</td></tr>");
+  $("#train-table > tbody").append("<tr><td>" + trainNameInput + "</td><td>"
+   + trainDestInput + "</td><td>" + trainFreqInput + "</td><td>" + moment(nextTrain).format("hh:mm")
+   + "</td><td>" + minutesTillNext + "</td></tr>");
 });
 
-// Example Time Math
-// -----------------------------------------------------------------------------
-// Assume Employee start date of January 1, 2015
-// Assume current date is March 1, 2016
-
-// We know that this is 15 months.
-// Now we will create code in moment.js to confirm that any attempt we use meets this test case

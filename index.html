@@ -18,9 +18,6 @@
       <!-- Jumbotron with Title -->
       <div class="jumbotron">
         <h3 class="text-center"><strong>Train Times</strong></h3>
-        <hr>
-        <h4 class="text-center">Create your own personalized train times reporter!</h4>
-
       </div>
        <!-- Top Panel -->
       <div class="row">
@@ -70,20 +67,20 @@
                   <div class="text-left">
                                           <form>
                       <div class="form-group">
-                        <label for="employeeinput">Train Name:</label>
+                        <label for="trainname">Train Name:</label>
                         <input type="text" class="form-control" id="trainname"  placeholder="Train Name">
                       </div>
                       <div class="form-group">
-                        <label for="roleinput">Destination:</label>
+                        <label for="destination">Destination:</label>
                         <input type="text" class="form-control" id="destination" placeholder="Destination">
                       </div>
                       <div class="form-group">
-                        <label for="startdateinput">Start Date (DD/MM/YY ex 01/01/18)</label>
-                        <input type="datetime" class="form-control" id="startdate" placeholder="Start Date">
+                        <label for="first-train-input">First Train Time (HH:mm - military time)</label>
+                        <input type="datetime" class="form-control" id="first-train-input" placeholder="Start Date">
                       </div>
                       <div class="form-group">
-                        <label for="monthlyrateinput">Frequency:</label>
-                        <input type="number" class="form-control" id="frequency" placeholder="Frequency">
+                        <label for="frequency-input">Frequency:</label>
+                        <input type="number" class="form-control" id="frequency-input" placeholder="Frequency">
                       </div>
                       
                       <button type="submit" id="add-train" class="btn btn-primary">Submit</button>
