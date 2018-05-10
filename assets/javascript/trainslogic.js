@@ -80,18 +80,18 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
 
   // Difference between current & first time
   var timeDiff = moment().diff(moment(timeDiffConvert, "X"), "minutes");
-  console.log(minutesTillNext);
+  console.log("The time diff is " + timeDiff);
 
   // time apart (remainder)
   var tRemainder = timeDiff % trainFreqInput;
-  console.log(nextTrain);
+
 
   // Minutes until next train
   var minutesTillNext = trainFreqInput - tRemainder;
 
   // Use moment to convert the minutesTillNext var into minutes 
   var nextTrain = moment().add(minutesTillNext, "minutes");
-
+  console.log("The time till next train is " + nextTrain);
 
   // Add each train's data into the table
   $("#train-table > tbody").append("<tr><td>" + trainNameInput + "</td><td>"
